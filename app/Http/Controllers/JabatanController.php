@@ -7,15 +7,29 @@ use Illuminate\Http\Request;
 
 class JabatanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $jabatan = Jabatan::orderBy('kode')->paginate(10);
+        $query = Jabatan::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('kode', 'like', "%{$search}%")
+                    ->orWhere('nama', 'like', "%{$search}%")
+                    ->orWhere('eselon', 'like', "%{$search}%")
+                    ->orWhere('keterangan', 'like', "%{$search}%");
+            });
+        }
+
+        $jabatan = $query->orderBy('kode')->paginate(10)->withQueryString();
         return view('master.jabatan.index', compact('jabatan'));
     }
 
     public function create()
     {
-        return view('master.jabatan.create');
+        $eselonOptions = Jabatan::eselonOptions();
+
+        return view('master.jabatan.create', compact('eselonOptions'));
     }
 
     public function store(Request $request)
@@ -35,7 +49,9 @@ class JabatanController extends Controller
 
     public function edit(Jabatan $jabatan)
     {
-        return view('master.jabatan.edit', compact('jabatan'));
+        $eselonOptions = Jabatan::eselonOptions();
+
+        return view('master.jabatan.edit', compact('jabatan', 'eselonOptions'));
     }
 
     public function update(Request $request, Jabatan $jabatan)

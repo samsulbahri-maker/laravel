@@ -12,6 +12,15 @@
         </a>
     </div>
     <div class="card-body">
+        <form method="GET" class="row g-3 mb-4">
+            <div class="col-md-4">
+                <input type="text" name="search" class="form-control" placeholder="Cari kode, nama, eselon, atau keterangan..." value="{{ request('search') }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search me-1"></i>Cari</button>
+            </div>
+        </form>
+
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>

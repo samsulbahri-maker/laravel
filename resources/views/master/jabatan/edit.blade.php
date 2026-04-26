@@ -38,14 +38,9 @@
                         <label class="form-label">Eselon</label>
                         <select name="eselon" class="form-select @error('eselon') is-invalid @enderror">
                             <option value="">- Non Eselon -</option>
-                            <option value="I.a" {{ old('eselon', $jabatan->eselon) == 'I.a' ? 'selected' : '' }}>I.a</option>
-                            <option value="I.b" {{ old('eselon', $jabatan->eselon) == 'I.b' ? 'selected' : '' }}>I.b</option>
-                            <option value="II.a" {{ old('eselon', $jabatan->eselon) == 'II.a' ? 'selected' : '' }}>II.a</option>
-                            <option value="II.b" {{ old('eselon', $jabatan->eselon) == 'II.b' ? 'selected' : '' }}>II.b</option>
-                            <option value="III.a" {{ old('eselon', $jabatan->eselon) == 'III.a' ? 'selected' : '' }}>III.a</option>
-                            <option value="III.b" {{ old('eselon', $jabatan->eselon) == 'III.b' ? 'selected' : '' }}>III.b</option>
-                            <option value="IV.a" {{ old('eselon', $jabatan->eselon) == 'IV.a' ? 'selected' : '' }}>IV.a</option>
-                            <option value="IV.b" {{ old('eselon', $jabatan->eselon) == 'IV.b' ? 'selected' : '' }}>IV.b</option>
+                            @foreach($eselonOptions as $eselon)
+                            <option value="{{ $eselon }}" {{ old('eselon', $jabatan->eselon) == $eselon ? 'selected' : '' }}>{{ $eselon }}</option>
+                            @endforeach
                         </select>
                         @error('eselon')
                         <div class="invalid-feedback">{{ $message }}</div>
